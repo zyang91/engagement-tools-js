@@ -1,7 +1,7 @@
 /* Core palette mirrors UPenn blue and red */
 :root {
 	--penn-blue: #011F5B;
-	--penn-red: #990000;
+	--penn-red: #900;
 	--text-light: #F5F1E6;
 	--text-muted: #D7CAB4;
 }
@@ -14,7 +14,7 @@
 
 body {
 	font-family: 'EB Garamond', serif;
-	background: linear-gradient(135deg, rgba(1, 31, 91, 0.97) 0%, rgba(1, 31, 91, 0.9) 55%, rgba(153, 0, 0, 0.95) 100%);
+	background: linear-gradient(135deg, rgb(1 31 91 / 97%) 0%, rgb(1 31 91 / 90%) 55%, rgb(153 0 0 / 95%) 100%);
 	color: var(--text-light);
 	min-height: 100vh;
 	display: flex;
@@ -27,11 +27,11 @@ body {
 header {
 	width: 100%;
 	max-width: 960px;
-	background-color: rgba(1, 31, 91, 0.85);
+	background-color: rgb(1 31 91 / 85%);
 	border: 3px solid var(--penn-red);
 	border-radius: 1.5rem;
 	padding: 1.5rem 2rem;
-	box-shadow: 0 25px 45px rgba(0, 0, 0, 0.35);
+	box-shadow: 0 25px 45px rgb(0 0 0 / 35%);
 	backdrop-filter: blur(6px);
 }
 
@@ -57,11 +57,11 @@ main {
 	width: 100%;
 	max-width: 960px;
 	margin-top: 2rem;
-	background-color: rgba(245, 241, 230, 0.08);
-	border: 1px solid rgba(215, 202, 180, 0.3);
+	background-color: rgb(245 241 230 / 8%);
+	border: 1px solid rgb(215 202 180 / 30%);
 	border-radius: 1.25rem;
 	padding: 2rem 2.5rem;
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+	box-shadow: 0 20px 40px rgb(0 0 0 / 25%);
 	backdrop-filter: blur(5px);
 }
 
@@ -74,7 +74,7 @@ main {
 	color: var(--text-light);
 }
 
-@media (max-width: 640px) {
+@media (width <= 640px) {
 	body {
 		padding: 1.5rem;
 	}

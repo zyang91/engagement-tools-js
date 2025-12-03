@@ -46,6 +46,7 @@ body.map-mode header {
 	border-left: 0;
 	border-right: 0;
 	box-shadow: none;
+	margin-bottom: 0;
 }
 
 .header-content {
@@ -166,10 +167,10 @@ body.map-mode main {
 
 body.map-mode #map-panel {
 	display: grid;
-	grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+	grid-template-columns: minmax(210px, 260px) minmax(0, 1fr);
 	align-items: stretch;
-	gap: 2rem;
-	padding: 2rem 3rem 3rem;
+	gap: 1rem;
+	padding: 1rem 1.25rem 1.25rem;
 }
 
 .map-instructions {
@@ -177,6 +178,13 @@ body.map-mode #map-panel {
 	border-left: 4px solid var(--penn-red);
 	padding: 1.25rem 1.5rem;
 	border-radius: 0.75rem;
+}
+
+body.map-mode .map-instructions {
+	margin: 0;
+	justify-content: center;
+	align-self: stretch;
+	padding: 1rem 1.25rem;
 }
 
 .map-instructions h2 {
@@ -229,7 +237,7 @@ body.map-mode #map-panel {
 }
 
 body.map-mode .map-canvas {
-	height: calc(100vh - 180px);
+	height: calc(100vh - 140px);
 	margin-top: 0;
 	border-radius: 1.25rem;
 }
@@ -265,7 +273,7 @@ body.map-mode .map-canvas {
 
 	body.map-mode #map-panel {
 		grid-template-columns: 1fr;
-		padding: 1.5rem;
+		padding: 1rem;
 	}
 
 	body.map-mode .map-canvas {

@@ -19,9 +19,40 @@
         </div>
     </header>
     <main>
-        <p class="description">
-            This tool makes it simple for Penn students, staff, and neighbors to share quick, helpful feedback about places on and around campus. Click any spot on the map and complete a short form to say what you like, report a problem, or suggest an improvement. You can also search for locations or propose new ideas. Submissions will be reviewed by Penn Facilities and University City managers to help guide practical improvements that make the campus better for everyone.
-        </p>
+        <section id="intro-panel" class="intro-panel" aria-labelledby="intro-heading">
+            <div>
+                <p class="description" id="intro-heading">
+                    This tool makes it simple for Penn students, staff, and neighbors to share quick, helpful feedback about places on and around campus. Click any spot on the map and complete a short form to say what you like, report a problem, or suggest an improvement. Submissions are routed to Penn Facilities and University City managers to guide practical improvements that make the campus better for everyone.
+                </p>
+            </div>
+            <div class="consent-card" aria-label="Participation guidelines and consent">
+                <h2>Before you continue</h2>
+                <p>Please confirm you understand and agree to the following:</p>
+                <ul class="consent-list">
+                    <li>Your submission may be reviewed by Penn Facilities and University City District staff.</li>
+                    <li>Do not include personal health information or sensitive data about others.</li>
+                    <li>Feedback should describe a location on or near campus and suggested improvements.</li>
+                </ul>
+                <label class="consent-check">
+                    <input type="checkbox" id="consent-checkbox">
+                    I understand the participation guidelines above.
+                </label>
+                <button id="consent-button" class="primary-button" type="button" disabled>I agree &amp; want to continue</button>
+            </div>
+        </section>
+
+        <section id="map-panel" class="map-panel is-hidden" aria-live="polite">
+            <div class="map-instructions">
+                <h2>Share your observations</h2>
+                <ol>
+                    <li>Pan and zoom to the place you want to comment on within the boundary.</li>
+                    <li>Click the map to drop a marker and open the quick feedback form.</li>
+                    <li>Describe the issue, compliment, or suggestion and submit your entry.</li>
+                </ol>
+                <p class="instruction-note">Tip: precise clicks and clear descriptions help staff respond faster.</p>
+            </div>
+            <div id="map" class="map-canvas" role="region" aria-label="University City engagement map"></div>
+        </section>
     </main>
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
     <script type="module" src="js/index.js"></script>

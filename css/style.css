@@ -1,0 +1,95 @@
+/* Core palette mirrors UPenn blue and red */
+:root {
+	--penn-blue: #011F5B;
+	--penn-red: #990000;
+	--text-light: #F5F1E6;
+	--text-muted: #D7CAB4;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'EB Garamond', serif;
+	background: linear-gradient(135deg, rgba(1, 31, 91, 0.97) 0%, rgba(1, 31, 91, 0.9) 55%, rgba(153, 0, 0, 0.95) 100%);
+	color: var(--text-light);
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 2.5rem 1.5rem 3rem;
+	line-height: 1.6;
+}
+
+header {
+	width: 100%;
+	max-width: 960px;
+	background-color: rgba(1, 31, 91, 0.85);
+	border: 3px solid var(--penn-red);
+	border-radius: 1.5rem;
+	padding: 1.5rem 2rem;
+	box-shadow: 0 25px 45px rgba(0, 0, 0, 0.35);
+	backdrop-filter: blur(6px);
+}
+
+.header-content {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.logo {
+	width: clamp(80px, 12vw, 120px);
+	height: auto;
+	flex-shrink: 0;
+}
+
+.title {
+	font-size: clamp(2rem, 4vw, 3.25rem);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+main {
+	width: 100%;
+	max-width: 960px;
+	margin-top: 2rem;
+	background-color: rgba(245, 241, 230, 0.08);
+	border: 1px solid rgba(215, 202, 180, 0.3);
+	border-radius: 1.25rem;
+	padding: 2rem 2.5rem;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+	backdrop-filter: blur(5px);
+}
+
+.description {
+	font-size: 1.2rem;
+	color: var(--text-muted);
+}
+
+.description strong {
+	color: var(--text-light);
+}
+
+@media (max-width: 640px) {
+	body {
+		padding: 1.5rem;
+	}
+
+	header,
+	main {
+		padding: 1.5rem;
+	}
+
+	.header-content {
+		flex-direction: column;
+		text-align: center;
+	}
+
+	.logo {
+		width: clamp(70px, 25vw, 100px);
+	}
+}

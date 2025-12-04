@@ -279,14 +279,14 @@ body.map-mode .map-instructions {
         font-size: 0.95rem;
 }
 
-.map-instructions h2 {
-	font-size: 1.4rem;
-	margin-bottom: 0.5rem;
+.map-instructions h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.35rem;
 }
 
 .map-instructions ol {
-	padding-left: 1.2rem;
-	margin: 0 0 1rem;
+        padding-left: 1.2rem;
+        margin: 0 0 1rem;
 }
 
 .map-instructions li {
@@ -294,8 +294,8 @@ body.map-mode .map-instructions {
 }
 
 .instruction-note {
-	color: var(--text-muted);
-	font-size: 0.95rem;
+        color: var(--text-muted);
+        font-size: 0.95rem;
 }
 
 .disclaimer {
@@ -332,7 +332,64 @@ body.map-mode .map-canvas {
         height: calc(100vh - 140px);
         margin-top: 0;
         border-radius: 1.25rem;
-        grid-area: map;
+}
+
+.map-reminder {
+        color: var(--text-muted);
+        font-size: 0.98rem;
+        text-align: center;
+}
+
+.feedback-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgb(1 31 91 / 90%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        z-index: 10;
+        overflow-y: auto;
+}
+
+.overlay-content {
+        width: min(1080px, 95vw);
+        background: rgb(245 241 230 / 12%);
+        border: 1px solid rgb(215 202 180 / 40%);
+        border-radius: 1rem;
+        padding: 1.25rem 1.35rem 1.5rem;
+        box-shadow: 0 25px 50px rgb(0 0 0 / 45%);
+}
+
+.overlay-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+}
+
+.overlay-header h2 {
+        font-size: 1.5rem;
+}
+
+.overlay-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.15fr;
+        gap: 1rem;
+        align-items: start;
+}
+
+.map-instructions {
+        background-color: rgb(1 31 91 / 45%);
+        border-left: 4px solid var(--penn-red);
+        padding: 1.25rem 1.5rem;
+        border-radius: 0.75rem;
+        height: 100%;
+}
+
+.close-overlay {
+        border-color: rgb(215 202 180 / 70%);
 }
 
 @media (width <= 640px) {
@@ -360,20 +417,15 @@ body.map-mode .map-canvas {
 }
 
 @media (width <= 900px) {
-	body.map-mode {
-		padding: 1rem;
-	}
-
-        body.map-mode #map-panel {
-                grid-template-columns: 1fr;
-                grid-template-areas:
-                        'instructions'
-                        'form'
-                        'map';
+        body.map-mode {
                 padding: 1rem;
         }
 
-	body.map-mode .map-canvas {
-		height: clamp(360px, 65vh, 860px);
-	}
+        body.map-mode .map-canvas {
+                height: clamp(360px, 65vh, 860px);
+        }
+
+        .overlay-grid {
+                grid-template-columns: 1fr;
+        }
 }

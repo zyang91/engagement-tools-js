@@ -15,7 +15,7 @@ export function setupFeedbackInteraction(map) {
                 return;
         }
 
-        const { feedbackPanel, locationLabel, locationInput, form, status, resetButton } = formElements;
+        const { feedbackPanel, locationLabel, locationInput, form, status, resetButton, overlay, closeOverlay } = formElements;
         const defaultLocationLabel = locationLabel.textContent;
         let activeMarker = null;
         let lastLocation = null;
@@ -27,6 +27,7 @@ export function setupFeedbackInteraction(map) {
                 updateMarker(map, lastLocation, activeMarker, (marker) => {
                         activeMarker = marker;
                 });
+                showOverlay(overlay);
                 revealForm(feedbackPanel);
                 setLocationLabel(locationLabel, locationInput, lastLocation);
                 status.textContent = '';
@@ -53,6 +54,21 @@ export function setupFeedbackInteraction(map) {
                 locationLabel.textContent = defaultLocationLabel;
                 lastLocation = null;
                 status.textContent = '';
+                hideOverlay(overlay);
+                feedbackPanel.classList.add('is-hidden');
+                if (activeMarker) {
+                        activeMarker.remove();
+                        activeMarker = null;
+                }
+        });
+
+        closeOverlay.addEventListener('click', () => {
+                form.reset();
+                locationInput.value = '';
+                locationLabel.textContent = defaultLocationLabel;
+                lastLocation = null;
+                status.textContent = '';
+                hideOverlay(overlay);
                 feedbackPanel.classList.add('is-hidden');
                 if (activeMarker) {
                         activeMarker.remove();
@@ -68,12 +84,14 @@ function queryFormElements() {
         const form = document.querySelector('#feedback-form');
         const status = document.querySelector('#feedback-status');
         const resetButton = document.querySelector('#reset-feedback');
+        const overlay = document.querySelector('#feedback-overlay');
+        const closeOverlay = document.querySelector('#close-overlay');
 
-        if (!feedbackPanel || !locationLabel || !locationInput || !form || !status || !resetButton) {
+        if (!feedbackPanel || !locationLabel || !locationInput || !form || !status || !resetButton || !overlay || !closeOverlay) {
                         return null;
         }
 
-        return { feedbackPanel, locationLabel, locationInput, form, status, resetButton };
+        return { feedbackPanel, locationLabel, locationInput, form, status, resetButton, overlay, closeOverlay };
 }
 
 function updateMarker(mapInstance, position, existingMarker, onUpdate) {
@@ -89,6 +107,18 @@ function updateMarker(mapInstance, position, existingMarker, onUpdate) {
 function revealForm(panel) {
         if (panel.classList.contains('is-hidden')) {
                 panel.classList.remove('is-hidden');
+        }
+}
+
+function showOverlay(overlayEl) {
+        if (overlayEl.classList.contains('is-hidden')) {
+                        overlayEl.classList.remove('is-hidden');
+        }
+}
+
+function hideOverlay(overlayEl) {
+        if (!overlayEl.classList.contains('is-hidden')) {
+                        overlayEl.classList.add('is-hidden');
         }
 }
 

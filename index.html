@@ -53,6 +53,45 @@
                 <p class="instruction-note">Tip: precise clicks and clear descriptions help staff respond faster.</p>
                 <p class="disclaimer">Disclaimer: Student project for the Penn MUSA JavaScript course by Zhanchao Yang.</p>
             </div>
+            <section id="feedback-panel" class="feedback-panel is-hidden" aria-live="polite">
+                <div class="feedback-header">
+                    <h3>Quick feedback form</h3>
+                    <p id="selected-location" class="location-label">Click anywhere on the map to set the location for your note.</p>
+                </div>
+                <form id="feedback-form" novalidate>
+                    <input type="hidden" id="location-coordinates" name="locationCoordinates">
+                    <div class="field-group">
+                        <label for="feedback-type">What type of note is this?</label>
+                        <select id="feedback-type" name="feedbackType" required>
+                            <option value="" disabled selected>Select a category</option>
+                            <option value="issue">Problem or maintenance issue</option>
+                            <option value="safety">Safety concern</option>
+                            <option value="accessibility">Accessibility barrier</option>
+                            <option value="kudos">Compliment</option>
+                            <option value="idea">Idea for improvement</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label for="feedback-text">Describe what you observed</label>
+                        <textarea id="feedback-text" name="feedbackText" rows="4" placeholder="Share details that will help staff understand and act." required></textarea>
+                    </div>
+                    <div class="field-pair">
+                        <div class="field-group">
+                            <label for="contact-name">Name (optional)</label>
+                            <input type="text" id="contact-name" name="contactName" autocomplete="name" placeholder="You can leave this blank">
+                        </div>
+                        <div class="field-group">
+                            <label for="contact-email">Email (optional)</label>
+                            <input type="email" id="contact-email" name="contactEmail" autocomplete="email" placeholder="Used only if follow-up is needed">
+                        </div>
+                    </div>
+                    <div class="action-row">
+                        <button type="submit" class="primary-button">Submit feedback</button>
+                        <button type="button" id="reset-feedback" class="ghost-button">Clear</button>
+                    </div>
+                    <p id="feedback-status" class="feedback-status" role="status" aria-live="polite"></p>
+                </form>
+            </section>
             <div id="map" class="map-canvas" role="region" aria-label="University City engagement map"></div>
         </section>
     </main>

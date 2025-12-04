@@ -51,6 +51,7 @@ export async function initBoundaryMap({
 		addBoundaryLayer(map, boundaryData);
 		addBuildingsLayer(map, buildingsData);
 		setupBuildingTooltips(map);
+		addMapLegend(map);
 		await onceMapIdle(map);
 		fitMapToBoundary(map, boundaryData, mapbox);
 	} catch (error) {
@@ -195,11 +196,11 @@ function setupBuildingTooltips(mapInstance) {
 		const address = properties.address || 'No address available';
 		
 		const html = `
-			<div style="font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.5;">
-				<strong style="display: block; margin-bottom: 4px;">Building Name:</strong>
-				<div style="margin-bottom: 8px;">${buildingName}</div>
-				<strong style="display: block; margin-bottom: 4px;">Address:</strong>
-				<div>${address}</div>
+			<div style="font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.5; color: #000;">
+				<strong style="display: block; margin-bottom: 4px; color: #000;">Building Name:</strong>
+				<div style="margin-bottom: 8px; color: #000;">${buildingName}</div>
+				<strong style="display: block; margin-bottom: 4px; color: #000;">Address:</strong>
+				<div style="color: #000;">${address}</div>
 			</div>
 		`;
 		
@@ -210,4 +211,36 @@ function setupBuildingTooltips(mapInstance) {
 		mapInstance.getCanvas().style.cursor = '';
 		popup.remove();
 	});
+}
+
+function addMapLegend(mapInstance) {
+	const legend = document.createElement('div');
+	legend.className = 'map-legend';
+	legend.style.cssText = `
+		position: absolute;
+		bottom: 30px;
+		right: 10px;
+		background: white;
+		padding: 12px 16px;
+		border-radius: 6px;
+		box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+		font-family: 'Inter', sans-serif;
+		font-size: 13px;
+		line-height: 1.6;
+		z-index: 1;
+	`;
+	
+	legend.innerHTML = `
+		<div style="font-weight: 600; margin-bottom: 8px; color: #333;">Map Legend</div>
+		<div style="display: flex; align-items: center; margin-bottom: 6px;">
+			<div style="width: 20px; height: 14px; background: #990000; opacity: 0.6; margin-right: 8px; border: 1px solid #660000;"></div>
+			<span style="color: #333;">UPenn Buildings</span>
+		</div>
+		<div style="display: flex; align-items: center;">
+			<div style="width: 20px; height: 14px; background: transparent; margin-right: 8px; border: 3px solid #011F5B;"></div>
+			<span style="color: #333;">University City District</span>
+		</div>
+	`;
+	
+	mapInstance.getContainer().appendChild(legend);
 }

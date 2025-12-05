@@ -1,3 +1,5 @@
+import { Backend } from './backend.js';
+
 const MAPBOX_PUBLIC_TOKEN = 'pk.eyJ1IjoiemhhbmNoYW8iLCJhIjoiY21nYm1mOGNpMTlycTJtb2xuczUwdjY1aCJ9.KRjlJ3Siuf2p0OKSsngcGw';
 
 const DEFAULT_VIEW = {
@@ -13,6 +15,15 @@ const BOUNDARY_LINE_ID = 'university-city-outline';
 const BUILDINGS_SOURCE_ID = 'penn-buildings';
 const BUILDINGS_FILL_ID = 'penn-buildings-fill';
 const BUILDINGS_LINE_ID = 'penn-buildings-outline';
+
+const FEEDBACK_COLORS = {
+  issue: '#e74c3c',
+  safety: '#e67e22',
+  accessibility: '#8e44ad',
+  kudos: '#27ae60',
+  idea: '#2980b9',
+  default: '#34495e',
+};
 
 /**
  * Initialize the University City boundary map using Mapbox GL JS.
@@ -54,6 +65,10 @@ export async function initBoundaryMap({
     addMapLegend(map);
     await onceMapIdle(map);
     fitMapToBoundary(map, boundaryData, mapbox);
+
+    // Load existing feedback from Firestore and display as markers
+    const feedbackList = await Backend.getFeedback();
+    addFeedbackMarkers(map, feedbackList);
   } catch (error) {
     console.error('Failed to initialize the University City boundary map.', error);
     throw error;
@@ -236,11 +251,76 @@ function addMapLegend(mapInstance) {
       <div style="width: 20px; height: 14px; background: #990000; opacity: 0.6; margin-right: 8px; border: 1px solid #660000;"></div>
       <span style="color: #333;">UPenn Buildings</span>
     </div>
-    <div style="display: flex; align-items: center;">
+    <div style="display: flex; align-items: center; margin-bottom: 6px;">
       <div style="width: 20px; height: 14px; background: transparent; margin-right: 8px; border: 3px solid #011F5B;"></div>
       <span style="color: #333;">University City District</span>
+    </div>
+    <div style="margin-top: 6px; border-top: 1px solid #ddd; padding-top: 6px; font-size: 12px; color: #333;">
+      <div style="margin-bottom: 4px; font-weight: 600;">Feedback points</div>
+      <div style="display: flex; align-items: center; margin-bottom: 3px;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: ${FEEDBACK_COLORS.issue}; margin-right: 6px;"></div>
+        <span>Issue</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 3px;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: ${FEEDBACK_COLORS.safety}; margin-right: 6px;"></div>
+        <span>Safety</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 3px;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: ${FEEDBACK_COLORS.accessibility}; margin-right: 6px;"></div>
+        <span>Accessibility</span>
+      </div>
+      <div style="display: flex; align-items: center; margin-bottom: 3px;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: ${FEEDBACK_COLORS.kudos}; margin-right: 6px;"></div>
+        <span>Kudos</span>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: ${FEEDBACK_COLORS.idea}; margin-right: 6px;"></div>
+        <span>Idea</span>
+      </div>
     </div>
   `;
 
   mapInstance.getContainer().appendChild(legend);
+}
+
+function addFeedbackMarkers(mapInstance, feedbackList) {
+  if (!Array.isArray(feedbackList)) return;
+
+  feedbackList.forEach((fb) => {
+    if (!fb.locationCoordinates) return;
+
+    const parts = fb.locationCoordinates.split(',').map((s) => s.trim());
+    if (parts.length !== 2) return;
+
+    const lng = Number(parts[0]);
+    const lat = Number(parts[1]);
+    if (Number.isNaN(lng) || Number.isNaN(lat)) return;
+
+    const color = FEEDBACK_COLORS[fb.feedbackType] || FEEDBACK_COLORS.default;
+
+    const el = document.createElement('div');
+    el.style.width = '14px';
+    el.style.height = '14px';
+    el.style.borderRadius = '50%';
+    el.style.backgroundColor = color;
+    el.style.border = '2px solid white';
+    el.style.boxShadow = '0 0 4px rgba(0,0,0,0.4)';
+    el.style.cursor = 'pointer';
+
+    const marker = new window.mapboxgl.Marker(el).setLngLat([lng, lat]);
+
+    const popupHtml = `
+      <div style="font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.5; color: #000; max-width: 240px;">
+        <div style="font-weight: 600; margin-bottom: 4px;">
+          ${fb.feedbackType ? fb.feedbackType.charAt(0).toUpperCase() + fb.feedbackType.slice(1) : 'Feedback'}
+        </div>
+        <div style="margin-bottom: 6px;">${fb.feedbackText || 'No description provided.'}</div>
+        ${fb.contactName ? `<div style="font-size: 12px; color: #555;">From: ${fb.contactName}</div>` : ''}
+      </div>
+    `;
+
+    const popup = new window.mapboxgl.Popup({ offset: 16 }).setHTML(popupHtml);
+
+    marker.setPopup(popup).addTo(mapInstance);
+  });
 }

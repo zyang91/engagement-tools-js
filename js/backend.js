@@ -4,12 +4,12 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.6.0/firebas
 import { getFirestore, collection, addDoc, getDocs } from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBzxNleGg-uarKjHON_axWaNJ0EltofVgo",
-    authDomain: "engagement-project-1597c.firebaseapp.com",
-    projectId: "engagement-project-1597c",
-    storageBucket: "engagement-project-1597c.firebasestorage.app",
-    messagingSenderId: "691010878556",
-    appId: "1:691010878556:web:555652f47ffd61e570ba99"
+  apiKey: 'AIzaSyBzxNleGg-uarKjHON_axWaNJ0EltofVgo',
+  authDomain: 'engagement-project-1597c.firebaseapp.com',
+  projectId: 'engagement-project-1597c',
+  storageBucket: 'engagement-project-1597c.firebasestorage.app',
+  messagingSenderId: '691010878556',
+  appId: '1:691010878556:web:555652f47ffd61e570ba99',
 };
 
 // Initialize Firebase
@@ -44,11 +44,11 @@ const Backend = {
 
     // Save to Firestore
     try {
-        const coll = collection(db, 'feedbacks');
-        const docRef = await addDoc(coll, record);
-        console.log("Document written with ID: ", docRef.id);
+      const coll = collection(db, 'feedbacks');
+      const docRef = await addDoc(coll, record);
+      console.log('Document written with ID: ', docRef.id);
     } catch (e) {
-        console.error("Error adding document: ", e);
+      console.error('Error adding document: ', e);
     }
 
     Backend.feedback.push(record);
@@ -70,7 +70,7 @@ const Backend = {
     const querySnapshot = await getDocs(coll);
     const stored = [];
     querySnapshot.forEach((doc) => {
-        stored.push(doc.data());
+      stored.push(doc.data());
     });
     Backend.feedback = stored;
     return stored;

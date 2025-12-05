@@ -227,10 +227,17 @@ body.map-mode .map-instructions {
         padding: 0.65rem 0.75rem;
         border-radius: 0.45rem;
         border: 1px solid rgb(215 202 180 / 50%);
-        background: rgb(1 31 91 / 20%);
-        color: var(--text-light);
+	background: rgb(245 241 230 / 95%);
+	color: #000;
         font-family: inherit;
         font-size: 1rem;
+}
+
+/* Ensure the first question's select text is especially clear */
+#feedback-type,
+#feedback-type option {
+	color: #000;
+	background-color: #fff;
 }
 
 .feedback-panel textarea {

@@ -1,4 +1,6 @@
 /* global mapboxgl */
+import { Backend } from './backend.js';
+
 /**
  * Wire up map clicks to reveal and populate the feedback form.
  * @param {mapboxgl.Map} map
@@ -32,7 +34,7 @@ export function setupFeedbackInteraction(map) {
     status.textContent = '';
   });
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!lastLocation) {
       status.textContent = 'Click the map to choose a location before submitting.';
@@ -41,7 +43,6 @@ export function setupFeedbackInteraction(map) {
 
     const formData = new FormData(form);
 
-    // TEST LOG: print all form input values to the browser console
     const payload = {
       locationCoordinates: formData.get('locationCoordinates'),
       feedbackType: formData.get('feedbackType'),
@@ -49,13 +50,19 @@ export function setupFeedbackInteraction(map) {
       contactName: formData.get('contactName'),
       contactEmail: formData.get('contactEmail'),
     };
-    console.log('Feedback form submission:', payload);
 
-    const category = formData.get('feedbackType');
-    form.reset();
-    locationInput.value = `${lastLocation.lng.toFixed(5)}, ${lastLocation.lat.toFixed(5)}`;
-    setLocationLabel(locationLabel, locationInput, lastLocation);
-    status.textContent = `Thanks for sharing your ${category || 'feedback'}!`;
+    try {
+      status.textContent = 'Submitting your feedback...';
+      await Backend.saveFeedback(payload);
+      const category = payload.feedbackType;
+      form.reset();
+      locationInput.value = `${lastLocation.lng.toFixed(5)}, ${lastLocation.lat.toFixed(5)}`;
+      setLocationLabel(locationLabel, locationInput, lastLocation);
+      status.textContent = `Thanks for sharing your ${category || 'feedback'}!`;
+    } catch (error) {
+      console.error('Failed to save feedback:', error);
+      status.textContent = 'Sorry, there was a problem saving your feedback. Please try again.';
+    }
   });
 
   resetButton.addEventListener('click', () => {
